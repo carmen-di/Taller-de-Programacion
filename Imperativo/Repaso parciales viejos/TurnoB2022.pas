@@ -50,11 +50,11 @@ begin
   if (c.cantProductos <> 0) then begin
      c.codCliente:= random(99) + 1;
      writeln('Codigo de cliente: ', c.codCliente);
-	 c.dia:= 1 + random(31);
-	 writeln('Dia: ', c.dia);
-	 c.monto:= random(500);
+	  c.dia:= 1 + random(31);
+	  writeln('Dia: ', c.dia);
+	  c.monto:= random(500);
      writeln('Monto: ', c.monto:4:2);
-	 writeln();
+	  writeln();
   end;
 end;
 
@@ -108,7 +108,7 @@ begin
      writeln('Cantidad de productos: ', l^.dato.cantProd);
      writeln('Dia: ', l^.dato.dia);
      writeln('Monto: ', l^.dato.monto:4:2);
-	 l:= l^.sig;
+	  l:= l^.sig;
   end;
 end;
 
@@ -117,10 +117,10 @@ begin
   if (a <> nil) then begin
      imprimirArbol(a^.hi);
      writeln('------------------------------------');
-	 writeln('Codigo de cliente: ', a^.dato.codCliente);
-	 imprimirLista(a^.dato.compras);
+	  writeln('Codigo de cliente: ', a^.dato.codCliente);
+	  imprimirLista(a^.dato.compras);
      writeln();
-	 ImprimirArbol(a^.hd);
+	  ImprimirArbol(a^.hd);
   end;
 end;
 

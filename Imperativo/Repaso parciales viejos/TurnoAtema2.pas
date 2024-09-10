@@ -3,7 +3,7 @@ type
   compra = record
 	 codigoCli: integer;
 	 numFac: integer;
-     cantProd: integer;
+   cantProd: integer;
 	 monto : real;
   end;
 
@@ -96,7 +96,7 @@ begin
      writeln('Numero de factura: ', l^.dato.numero);
      writeln('Cantidad de productos: ', l^.dato.cant);
      writeln('Monto: ', l^.dato.monto:4:2);
-	 l:= l^.sig;
+	   l:= l^.sig;
   end;
 end;
 
@@ -105,10 +105,10 @@ begin
   if (a <> nil) then begin
      imprimirArbol(a^.hi);
      writeln('------------------------------------');
-	 writeln('Codigo de cliente: ', a^.dato.codigo);
-	 imprimirLista(a^.dato.lCompras);
+	   writeln('Codigo de cliente: ', a^.dato.codigo);
+	   imprimirLista(a^.dato.lCompras);
      writeln();
-	 ImprimirArbol(a^.hd);
+	   ImprimirArbol(a^.hd);
   end;
 end;
 

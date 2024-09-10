@@ -96,8 +96,8 @@ begin
      writeln();
      writeln('Codigo de vuelo: ', l^.dato.codVuelo);
      writeln('Codigo de cliente: ',l^.dato.codCliente);
-	 writeln('Monto: ', l^.dato.monto:4:2);
-	 l:= l^.sig;
+	   writeln('Monto: ', l^.dato.monto:4:2);
+	   l:= l^.sig;
   end;
 end;
 
@@ -106,10 +106,10 @@ begin
   if (a <> nil) then begin
      imprimirArbol(a^.hi);
      writeln('------------------------------------');
-	 writeln('Codigo ciudad destino: ', a^.dato.codDestino);
-	 imprimirLista(a^.dato.lPasaje);
+	   writeln('Codigo ciudad destino: ', a^.dato.codDestino);
+	   imprimirLista(a^.dato.lPasaje);
      writeln();
-	 imprimirArbol(a^.hd);
+	   imprimirArbol(a^.hd);
   end;
 end;
 
@@ -147,13 +147,13 @@ var
   cantActual: integer;
 begin 
   if (a <> nil) then begin 
-	 cantActual:= obtenerMax(a^.dato.lPasaje);
+	   cantActual:= obtenerMax(a^.dato.lPasaje);
      if (cantActual > cantMax) then begin
-		cantMax:= cantActual;
-	    codigo:= a^.dato.codDestino;
-	 end;
-      maxVendidos(a^.hi, codigo, cantMax);
-      maxVendidos(a^.hd, codigo, cantMax);
+		    cantMax:= cantActual;
+	      codigo:= a^.dato.codDestino;
+	   end;
+     maxVendidos(a^.hi, codigo, cantMax);
+     maxVendidos(a^.hd, codigo, cantMax);
   end;
 end;
 

@@ -46,8 +46,8 @@ begin
   if (a = nil) then begin
 	 new(a);
 	 inicializarVector(a^.dato.vec);
-     a^.dato.codigo:= c.cliente;
-     a^.dato.vec[c.mes]:= a^.dato.vec[c.mes] + c.monto;
+   a^.dato.codigo:= c.cliente;
+   a^.dato.vec[c.mes]:= a^.dato.vec[c.mes] + c.monto;
 	 a^.hi:= nil;
 	 a^.hd:= nil;
   end
@@ -58,7 +58,7 @@ begin
 	 if (c.cliente < a^.dato.codigo) then
 	     insertarAlArbol(a^.hi, c)
 	 else
-		insertarAlArbol(a^.hd, c);
+		   insertarAlArbol(a^.hd, c);
 end;
 
 procedure cargarArbol(var a: arbol);
@@ -79,7 +79,7 @@ var
 begin
   if (a <> nil) then begin
     imprimirArbol(a^.hi);
-	  writeln('Codigo: ', a^.dato.codigo);
+    writeln('Codigo: ', a^.dato.codigo);
     for i:= 1 to 12 do begin
       writeln('Mes: ',i);
       writeln('Monto: $ ', a^.dato.vec[i]:5:2);
@@ -113,7 +113,7 @@ begin
   else
      if (codigo = a^.dato.codigo) then
         mayorGasto:= maximo(a^.dato.vec)
-	   else
+     else
         if (codigo < a^.dato.codigo) then
           mayorGasto:= mayorGasto(a^.hi, codigo)
         else
