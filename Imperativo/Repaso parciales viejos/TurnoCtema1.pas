@@ -3,7 +3,7 @@ type
   sub_dia = 1..31;
   sub_mes = 1..12;
   compra = record
-     videojuego: integer;
+    videojuego: integer;
 	 cliente: integer;
 	 dia: sub_dia;
 	 mes: sub_mes;
@@ -147,7 +147,7 @@ begin
     writeln('Videojuego: ', l^.dato.videojuego);
     writeln('Dia: ', l^.dato.dia);
     writeln('Mes: ', l^.dato.mes);
-	 l:=l^.sig;
+	  l:=l^.sig;
   end;
 end;
 
