@@ -9,7 +9,7 @@ import PaqueteLectura.Lector;
 public class ejercicio1 {
 
     public static void main(String[] args) {
-        Triangulo t = new Triangulo (5, 7, 3, "rojo", "azul");
+        Triangulo t = new Triangulo(5, 7, 3, "rojo", "azul");
         Circulo cr = new Circulo(4, "amarillo", "violeta");
         
         System.out.println("Triangulo ");

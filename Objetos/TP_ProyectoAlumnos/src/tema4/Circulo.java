@@ -5,13 +5,20 @@
  */
 package tema4;
 
-
-public class Circulo extends Figura {
+public class Circulo extends Figura{
     private double radio;
     
-    public Circulo(double unRadio, String uncolorR, String uncolorL) {
-        super(uncolorR,uncolorL);
+    public Circulo(double unRadio, String unColorR, String unColorL){
+        super(unColorR,unColorL);
         setRadio(unRadio);
+    }
+
+    public double getRadio() {
+        return radio;
+    }
+
+    public void setRadio(double radio) {
+        this.radio = radio;
     }
     
     public double calcularArea() {
@@ -28,11 +35,4 @@ public class Circulo extends Figura {
        return aux;
     }
     
-    public double getRadio() {
-        return radio;
-    }
-
-    public void setRadio(double radio) {
-        this.radio = radio;
-    }
 }

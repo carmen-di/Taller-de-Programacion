@@ -15,16 +15,20 @@ public abstract class Empleado {
         setSueldoBasico(sueldo);
         setAntiguedad(antiguedad);
     }
-    
+
     public abstract double calcularEfectividad();
+    
+    public double sueldoBase() {
+        return this.getSueldoBasico() + ((this.getSueldoBasico()* 0.10)*this.getAntiguedad());
+    }
     
     public abstract double calcularSueldoACobrar();
     
     public String toString() {
-        return "Nombre: " + getNombre() + ", sueldo a cobrar: " + this.calcularSueldoACobrar() + " $" + 
-                ", efectividad: " + this.calcularEfectividad();
+        return "Nombre: " + getNombre() + " , sueldo a cobrar: " + this.calcularSueldoACobrar() + " $ " + 
+                " , efectividad: " + this.calcularEfectividad();
     }
-
+    
     public String getNombre() {
         return nombre;
     }

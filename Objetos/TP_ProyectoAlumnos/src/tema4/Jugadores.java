@@ -5,6 +5,10 @@
  */
 package tema4;
 
+/**
+ *
+ * @author norai
+ */
 public class Jugadores extends Empleado {
     private int partidosJugados;
     private int goles;
@@ -20,13 +24,13 @@ public class Jugadores extends Empleado {
     }
     
     public double calcularSueldoACobrar() {
-        if (getGoles() /(double)getPartidosJugados() > 0.5){
-          return super.getSueldoBasico() *2;
-        }
+        if (getGoles() / (double)getPartidosJugados() > 0.5) {
+            return super.getSueldoBasico() * 2;
+        } 
         else
-          return super.getSueldoBasico();
+            return super.getSueldoBasico();
     }
-
+    
     public int getPartidosJugados() {
         return partidosJugados;
     }
@@ -42,5 +46,6 @@ public class Jugadores extends Empleado {
     public void setGoles(int goles) {
         this.goles = goles;
     }
+    
     
 }

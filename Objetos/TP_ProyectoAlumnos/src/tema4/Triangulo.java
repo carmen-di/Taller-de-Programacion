@@ -5,7 +5,6 @@
  */
 package tema4;
 
-
 public class Triangulo extends Figura {
     private double ladoA;
     private double ladoB;
@@ -28,12 +27,12 @@ public class Triangulo extends Figura {
     public double calcularPerimetro() {
         return (getLadoA() + getLadoB() + getLadoC());
     }
-
+    
     public String toString() {
         String aux = super.toString() + " Lado A: " + getLadoA() + " Lado B: " + getLadoB() + " Lado C: " + getLadoC();
         return aux;
     }
-
+    
     public double getLadoA() {
         return ladoA;
     }

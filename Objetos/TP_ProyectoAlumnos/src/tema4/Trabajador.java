@@ -6,13 +6,13 @@
 package tema4;
 
 public class Trabajador extends Persona {
-    private String trabajo;
-    
-    public Trabajador (String unNombre, int unDNI, int unaEdad, String trabajo){
-      super(unNombre, unDNI, unaEdad);
-      setTrabajo(trabajo);
-   }
+    public String trabajo;
 
+    public Trabajador(String unNombre, int unDNI, int unaEdad, String trabajo) {
+        super(unNombre, unDNI, unaEdad);
+        setTrabajo(trabajo);
+    }
+    
     public String getTrabajo() {
         return trabajo;
     }
@@ -22,7 +22,6 @@ public class Trabajador extends Persona {
     }
     
     public String toString() {
-      return super.toString() + " Soy "+ getTrabajo ()+ ".";
+        return super.toString() + " Soy " + getTrabajo() + ".";
     }
-  
 }

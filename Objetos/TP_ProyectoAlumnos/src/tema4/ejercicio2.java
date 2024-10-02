@@ -20,9 +20,10 @@ public class ejercicio2 {
 
         System.out.println("Cantidad de campeonatos ganados: ");
         int ganados = Lector.leerInt();
-
-        Entrenadores e = new Entrenadores (nom, sueldo, antiguedad, ganados);
-
+        
+        Entrenadores e = new Entrenadores(nom, sueldo, antiguedad, ganados);
+        
+        
         System.out.println();
         System.out.println("Ingrese el nombre del jugador: ");
         String nom2 = Lector.leerString();
@@ -40,7 +41,7 @@ public class ejercicio2 {
         int goles = Lector.leerInt();
 
         Jugadores j = new Jugadores (nom2, sueldo2, antiguedad2, partidos, goles);
-
+        
         System.out.println();
         System.out.println(e.toString());
         System.out.println(j.toString());
