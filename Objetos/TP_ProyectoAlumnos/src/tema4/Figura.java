@@ -36,6 +36,11 @@ public abstract class Figura {
         colorLinea = unColor;       
     }
     
+    public void despintar() {
+        this.setColorLinea("negro");
+        this.setColorRelleno("blanco");
+    }
+    
     public abstract double calcularArea();
     public abstract double calcularPerimetro();
      
