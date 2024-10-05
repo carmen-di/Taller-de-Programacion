@@ -34,46 +34,6 @@ public class Estacionamiento {
         pisos = new Auto[cantPisos][cantPlazas];
     }
     
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getHora_apertura() {
-        return hora_apertura;
-    }
-
-    public void setHora_apertura(String hora_apertura) {
-        this.hora_apertura = hora_apertura;
-    }
-
-    public String getHora_cierre() {
-        return hora_cierre;
-    }
-
-    public void setHora_cierre(String hora_cierre) {
-        this.hora_cierre = hora_cierre;
-    }
-
-    public int getCantPisos() {
-        return cantPisos;
-    }
-
-    public int getCantPlazas() {
-        return cantPlazas;
-    }
-    
     public void registarAuto(Auto a, int piso, int plaza) {
         pisos[piso][plaza] = a;
     }
