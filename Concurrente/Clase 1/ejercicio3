@@ -1,0 +1,67 @@
+programa ej4
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso juntarPapeles
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso limpiar1y3
+  comenzar
+    repetir 24
+      repetir 99
+        juntarFlores
+        mover
+      juntarFlores
+      Pos(PosAv+1, 1)
+    repetir 99
+      juntarFlores
+      mover
+    juntarFlores
+  fin
+  proceso limpiar2y4
+  comenzar
+    repetir 24
+      repetir 99
+        juntarPapeles
+        mover
+      juntarPapeles
+      Pos(PosAv+1, 1)
+    repetir 99
+      juntarPapeles
+      mover
+    juntarPapeles
+  fin
+areas
+  area1: AreaP(1,1,25,100)
+  area2: AreaP(26,1,50,100)
+  area3: AreaP(51,1,75,100)
+  area4: AreaP(76,1,100,100)
+robots
+  robot tipo1
+  comenzar
+    limpiar1y3
+    Pos(51, 1)
+    limpiar1y3
+  fin
+  robot tipo2
+  comenzar
+    limpiar2y4
+    Pos(76, 1)
+    limpiar2y4
+  fin
+variables
+  r1: tipo1
+  r2: tipo2
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r1, area3)
+  AsignarArea(r2, area4)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 26, 1)
+fin

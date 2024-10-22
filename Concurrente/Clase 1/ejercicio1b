@@ -1,0 +1,47 @@
+programa ej1b
+procesos
+  proceso juntarFlores (ES cantVacias: numero; ES flores: numero)
+  comenzar
+    si ~(HayFlorEnLaEsquina)
+      cantVacias:= cantVacias + 1
+    sino
+      mientras (HayFlorEnLaEsquina)
+        tomarFlor
+        flores:= flores + 1
+  fin
+  proceso depositarFlores(E cantFlores: numero)
+  comenzar
+    repetir cantFlores
+      depositarFlor
+  fin
+  proceso recorrerAvenida
+  variables
+    flor, sinFlor: numero
+  comenzar
+    flor:= 0
+    sinFlor:= 0
+    repetir 99
+      juntarFlores(sinFlor, flor)
+      mover
+    juntarFlores(sinFlor, flor)
+    depositarFlores(flor)
+    Informar('Flores_depositadas_',flor)
+    Informar('Cantidad_de_esquinas_vacias_',sinFlor)
+  fin
+areas
+  ciudad: AreaP(1,1,5,100)
+robots
+  robot tipo1
+  comenzar
+    recorrerAvenida
+  fin
+variables
+  robot1, robot2, robot3: tipo1
+comenzar
+  AsignarArea(robot1, ciudad)
+  AsignarArea(robot2, ciudad)
+  AsignarArea(robot3, ciudad)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 3, 1)
+  Iniciar(robot3, 5, 1)
+fin

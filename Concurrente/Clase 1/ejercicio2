@@ -1,0 +1,66 @@
+programa ej2
+procesos
+  proceso posicionar(E n: numero)
+  comenzar
+    repetir n
+      derecha
+  fin
+  proceso juntarPapeles(ES papel: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papel:= papel + 1
+  fin
+  proceso recorrido(ES p: numero)
+  comenzar
+    p:= 0
+    repetir 20
+      juntarPapeles(p)
+      mover
+    Informar(p)
+  fin
+areas
+  cuadrado: AreaC(10,10,30,30)
+robots
+  robot tipo1
+  variables
+    p: numero
+  comenzar
+    recorrido(p)
+  fin
+  robot tipo2
+  variables
+    p: numero
+  comenzar
+    posicionar(1)
+    recorrido(p)
+  fin
+  robot tipo3
+  variables
+    p: numero
+  comenzar
+    posicionar(2)
+    recorrido(p)
+  fin
+  robot tipo4
+  variables
+    p: numero
+  comenzar
+    posicionar(3)
+    recorrido(p)
+  fin
+variables
+  r1: tipo1
+  r2: tipo2
+  r3: tipo3
+  r4: tipo4
+comenzar
+  AsignarArea(r1, cuadrado)
+  AsignarArea(r2, cuadrado)
+  AsignarArea(r3, cuadrado)
+  AsignarArea(r4, cuadrado)
+  Iniciar(r1, 10, 10)
+  Iniciar(r2, 10, 30)
+  Iniciar(r3, 30, 30)
+  Iniciar(r4, 30, 10)
+fin
