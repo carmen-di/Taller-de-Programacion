@@ -1,0 +1,51 @@
+programa ej1b
+procesos
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+  proceso recorrido(ES flores: numero)
+  comenzar
+    repetir 9
+      juntarFlores(flores)
+      mover
+    juntarFlores(flores)
+  fin
+areas
+  area1: AreaP(1,1,1,10)
+  area2: AreaP(2,11,2,20)
+  area3: AreaP(2,1,2,1)
+robots
+  robot tipo1
+  variables
+    flores: numero
+  comenzar
+    flores:= 0
+    recorrido(flores)
+    EnviarMensaje(flores, rf)
+  fin
+  robot fiscal
+  variables
+    flores1, flores2: numero
+  comenzar
+    RecibirMensaje(flores1, r1)
+    RecibirMensaje(flores2, r2)
+    si (flores1 > flores2)
+      Informar('Diferencia r1', flores1 - flores2)
+    sino
+      Informar('Diferencia r2', flores2 - flores1)
+  fin
+variables
+  r1: tipo1
+  r2: tipo1
+  rf: fiscal
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(rf, area3)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 2, 11)
+  Iniciar(rf, 2, 1)
+fin

@@ -1,0 +1,92 @@
+programa ej1d
+procesos
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+  proceso recorrido(ES flores: numero)
+  comenzar
+    repetir 9
+      juntarFlores(flores)
+      mover
+    juntarFlores(flores)
+  fin
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    EnviarMensaje(4, r4)
+    EnviarMensaje(5, r5)
+    EnviarMensaje(6, r6)
+  fin
+areas
+  area1: AreaP(1,1,1,10)
+  area2: AreaP(2,11,2,20)
+  area3: AreaP(3,21,3,30)
+  area4: AreaP(4,31,4,40)
+  area5: AreaP(5,41,5,50)
+  area6: AreaP(6,51,6,60)
+  area7: AreaP(2,1,2,1)
+robots
+  robot tipo1
+  variables
+    flores, id: numero
+  comenzar
+    flores:= 0
+    RecibirMensaje(id, rf)
+    recorrido(flores)
+    EnviarMensaje(id, rf)
+    EnviarMensaje(flores, rf)
+  fin
+  robot fiscal
+  variables
+    fmax, cantf, id, rganador: numero
+  comenzar
+    fmax:= -1
+    identificar
+    repetir 6
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(cantf, r1)
+      sino
+        si (id = 2)
+          RecibirMensaje(cantf, r2)
+        sino
+          si (id = 3)
+            RecibirMensaje(cantf, r3)
+          sino
+            si (id = 4)
+              RecibirMensaje(cantf, r4)
+            sino
+              si (id = 5)
+                RecibirMensaje(cantf, r5)
+              sino
+                RecibirMensaje(cantf, r6)
+      si (cantf > fmax)
+        fmax:= cantf
+        rganador:= id
+    Informar('El_robot_ganador es', rganador)
+    Informar('Junto', fmax)
+  fin
+variables
+  r1, r2, r3, r4, r5, r6: tipo1
+  rf: fiscal
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  AsignarArea(r4, area4)
+  AsignarArea(r5, area5)
+  AsignarArea(r6, area6)
+  AsignarArea(rf, area7)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 2, 11)
+  Iniciar(r3, 3, 21)
+  Iniciar(r4, 4, 31)
+  Iniciar(r5, 5, 41)
+  Iniciar(r6, 6, 51)
+  Iniciar(rf, 2, 1)
+fin

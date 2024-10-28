@@ -1,0 +1,50 @@
+programa ej1
+procesos
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+  proceso recorrido(ES flores: numero)
+  comenzar
+    repetir 9
+      juntarFlores(flores)
+      mover
+    juntarFlores(flores)
+  fin
+areas
+  area1: AreaP(1,1,1,10)
+  area2: AreaP(2,11,2,20)
+robots
+  robot tipo1
+  variables 
+    flores, cant: numero
+  comenzar
+    flores:= 0
+    recorrido(flores)
+    EnviarMensaje(flores, r2)
+    RecibirMensaje(cant, r2)
+    si (flores > cant)
+      Informar('Diferencia', flores - cant)
+  fin
+  robot tipo2
+  variables
+    flores, cant: numero
+  comenzar
+    flores:= 0
+    recorrido(flores)
+    EnviarMensaje(flores, r1)
+    RecibirMensaje(cant, r1)
+    si (flores > cant)
+      Informar('Diferencia', flores - cant)
+  fin
+variables
+  r1: tipo1
+  r2: tipo2
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 2, 11)
+fin
