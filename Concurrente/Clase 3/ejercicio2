@@ -1,0 +1,115 @@
+programa ej2
+procesos
+  proceso juntarFlores
+  comenzar
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso juntarPapeles
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso asignarId
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+  fin
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso lado(E l: numero)
+  comenzar
+    repetir l
+      mover
+  fin
+  proceso escalonF(E l: numero)
+  comenzar
+    lado(l)
+    juntarFlores
+    derecha
+    lado(l)
+  fin
+  proceso escalonP(E l: numero)
+  comenzar
+    lado(l)
+    juntarPapeles
+    izquierda
+    lado(l)
+  fin
+  proceso avisarCentro(E esPapelero: boolean; E id: numero)
+  comenzar
+    si (esPapelero)
+      izquierda
+    sino
+      derecha
+    BloquearEsquina(16, 16)
+    mover
+    EnviarMensaje(id, rj)
+    repetir 2
+      derecha
+    mover
+    LiberarEsquina(16, 16)
+  fin    
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot florero
+  variables
+    id, l: numero
+  comenzar
+    RecibirMensaje(id, rj)
+    l:= 5
+    repetir 4
+      escalonF(l)
+      izquierda
+      l:= l - 1
+    mover
+    avisarCentro(F, id)
+    l:= l + 1
+    repetir 4
+      escalonF(l)
+      izquierda
+      l:= l + 1
+  fin
+  robot papelero
+  variables
+    id, l: numero
+  comenzar
+    RecibirMensaje(id, rj)
+    l:= 5
+    repetir 4
+      escalonP(l)
+      derecha
+      l:= l - 1
+    mover
+    avisarCentro(V, id)
+    l:= l + 1
+    repetir 4
+      escalonP(l)
+      derecha
+      l:= l + 1
+  fin
+  robot jefe
+  variables
+    idGanador, idPerdedor: numero
+  comenzar
+    asignarId
+    RecibirMensaje(idGanador, *)
+    RecibirMensaje(idPerdedor, *)
+    Informar(idGanador)
+  fin
+variables
+  r1: florero
+  r2: papelero
+  rj: jefe
+comenzar
+  AsignarArea(r1, ciudad)
+  AsignarArea(r2, ciudad)
+  AsignarArea(rj, ciudad)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 31, 1)
+  Iniciar(rj, 15, 1)
+fin

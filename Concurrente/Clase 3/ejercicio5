@@ -1,0 +1,96 @@
+programa ej5
+procesos
+  proceso juntarPapeles(ES ok: boolean)
+  comenzar
+    si (HayPapelEnLaEsquina)
+      tomarPapel
+    sino
+      ok:= F
+  fin
+  proceso depositar(E ok: boolean)
+  comenzar
+    si (ok = V)
+      depositarPapel 
+      mover
+  fin
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    EnviarMensaje(4, r4)
+  fin
+areas
+  areaJ: AreaP(1,1,1,1)
+  area1: AreaP(4,1,4,100)
+  area2: AreaP(6,1,6,100)
+  area3: AreaP(8,1,8,100)
+  area4: AreaP(10,1,10,100)
+  esquina: AreaPC(11,11,11,11)
+robots
+  robot tipo1
+  variables
+    papel, av, ca, id: numero
+    ok: boolean
+  comenzar
+    RecibirMensaje(id, rj)
+    ok:= V
+    av:= PosAv
+    ca:= PosCa
+    mientras (ok) & (PosCa < 100)
+      BloquearEsquina(11, 11)
+      Pos(11, 11)
+      juntarPapeles(ok)
+      Pos(av, ca)
+      LiberarEsquina(11, 11)
+      depositar(ok)
+      ca:= PosCa
+    EnviarMensaje(id, rj)
+    ca:= PosCa
+    EnviarMensaje(ca, rj)
+  fin
+  
+  robot tipoJ
+  variables
+    id, idMax, calle, calleMax: numero
+  comenzar
+    idMax:= -1
+    calleMax:= -1
+    identificar
+    repetir 4
+      RecibirMensaje(id, *)      
+      si (id = 1)
+        RecibirMensaje(calle, r1)
+      sino
+        si (id = 2)
+          RecibirMensaje(calle, r2)
+        sino
+          si (id = 3)
+            RecibirMensaje(calle, r3)
+          sino
+            RecibirMensaje(calle, r4)
+    si (calle > calleMax)
+      calleMax:= calle
+      idMax:= id
+    Informar('El_robot_que_llego_mas_lejos_', idMax)
+  fin
+  
+variables
+  r1, r2, r3, r4: tipo1
+  rj: tipoJ
+comenzar
+  AsignarArea(rj, areaJ)
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  AsignarArea(r4, area4)
+  AsignarArea(r1, esquina)
+  AsignarArea(r2, esquina)
+  AsignarArea(r3, esquina)
+  AsignarArea(r4, esquina)
+  Iniciar(rj, 1, 1)
+  Iniciar(r1, 4, 1)
+  Iniciar(r2, 6, 1)
+  Iniciar(r3, 8, 1)
+  Iniciar(r4, 10, 1)
+fin
