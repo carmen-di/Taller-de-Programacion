@@ -1,0 +1,39 @@
+programa ej4
+procesos
+  proceso recogerFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso recogerPapeles
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso vaciarBolsa
+  comenzar
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+  fin
+areas
+  areaJ: AreaP(1,1,1,1)
+  areaT1: AreaP(2,1,2,1)
+  areaT2: AreaP(3,1,3,1)
+  cuadrante(2,2,100,100)
+robots
+ 
+variables
+  r1, r2: trabajador
+  rj: jefe
+comenzar
+  AsignarArea(rj, areaJ)
+  AsignarArea(r1, areaT1)
+  AsignarArea(r2, areaT2)
+  AsignarArea(r1, cuadrante)
+  AsignarArea(r2, cuadrante)
+  Iniciar(rj, 1, 1)
+  Iniciar(r1, 2, 1)
+  Iniciar(r2, 3, 1)
+fin

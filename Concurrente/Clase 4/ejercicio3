@@ -1,0 +1,72 @@
+programa ej3
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+  fin
+  proceso juntarPapeles
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso avisarRobots(E id: numero)
+  comenzar
+    si (id = 1)
+      EnviarMensaje(V, r2)
+      EnviarMensaje(V, r3)
+    sino
+      si (id = 2)
+        EnviarMensaje(V, r3)
+        EnviarMensaje(V, r1)
+      sino
+        EnviarMensaje(V, r1)
+        EnviarMensaje(V, r2)
+  fin
+areas
+  areaP1: AreaP(1,1,1,100)
+  areaP2: AreaP(2,1,2,100)
+  areaP3: AreaP(3,1,3,100)
+  areaCoord: AreaP(4,1,4,1)
+robots
+  robot papelero
+  variables
+    id: numero
+    ok: boolean
+  comenzar
+    RecibirMensaje(id, rc)
+    repetir 24
+      repetir 4
+        juntarPapeles
+        mover
+      juntarPapeles
+      avisarRobots(id)
+      repetir 2
+        RecibirMensaje(ok, *)
+    repetir 3
+      juntarPapeles
+      mover
+    juntarPapeles
+    avisarRobots(id)
+    repetir 2
+      RecibirMensaje(ok, *)
+  fin
+  
+  robot coordinador
+  comenzar
+    identificar
+  fin
+variables
+  r1, r2, r3: papelero
+  rc: coordinador
+comenzar
+  AsignarArea(r1, areaP1)
+  AsignarArea(r2, areaP2)
+  AsignarArea(r3, areaP3)
+  AsignarArea(rc, areaCoord)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 2, 1)
+  Iniciar(r3, 3, 1)
+  Iniciar(rc, 4, 1)
+fin
