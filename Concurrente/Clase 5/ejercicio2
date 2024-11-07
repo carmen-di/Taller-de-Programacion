@@ -1,0 +1,86 @@
+programa ej2
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+  fin
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+areas
+  areaF1: AreaP(1,1,100,1)
+  areaF2: AreaP(1,2,100,2)
+  areaF3: AreaP(1,3,100,3)
+  areaJ: AreaP(1,4,1,4)
+  areaD: AreaC(50,50,50,50)
+robots
+  robot florero
+  variables
+    id, av, ca, flor: numero
+    ok, termine: boolean
+  comenzar
+    derecha
+    RecibirMensaje(id, rj)
+    repetir 9
+      repetir 10
+        juntarFlores(flor)
+        mover
+      juntarFlores(flor)
+      av:= PosAv
+      ca:= PosCa
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      repetir flor
+        depositarFlor
+      Pos(av, ca)
+      flor:= 0
+      LiberarEsquina(50,50)
+      si (id = 1)
+        EnviarMensaje(ok, r2)
+        EnviarMensaje(ok, r3)
+      sino
+        si (id = 2)
+          EnviarMensaje(ok, r1)
+          EnviarMensaje(ok, r3)
+        sino
+          EnviarMensaje(ok, r1)
+          EnviarMensaje(ok, r2)
+      repetir 2
+        RecibirMensaje(ok, *)
+    EnviarMensaje(ok, rj)
+  fin
+  
+  robot jefe
+  variables
+    cant: numero
+    ok: boolean
+  comenzar
+    identificar
+    repetir 3
+      RecibirMensaje(ok, *)
+    Pos(50, 50)
+    juntarFlores(cant)
+    Informar('Cantidad juntada', cant) 
+  fin
+variables
+  r1, r2, r3: florero
+  rj: jefe
+comenzar
+  AsignarArea(r1, areaF1)
+  AsignarArea(r2, areaF2)
+  AsignarArea(r3, areaF3)
+  AsignarArea(rj, areaJ)
+  AsignarArea(r1, areaD)
+  AsignarArea(r2, areaD)
+  AsignarArea(r3, areaD)
+  AsignarArea(rj, areaD)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 1, 2)
+  Iniciar(r3, 1, 3)
+  Iniciar(rj, 1, 4)
+fin

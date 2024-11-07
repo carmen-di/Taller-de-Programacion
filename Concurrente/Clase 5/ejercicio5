@@ -1,0 +1,77 @@
+programa ej5
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+  fin
+areas
+  areaD: AreaC(100,1,100,1) {deposito}
+  areaS: AreaP(13,1,13,1)
+  areaR1: AreaP(10,1,10,1)
+  areaR2: AreaP(11,1,11,1)
+  areaR3: AreaP(12,1,12,1)
+robots
+  robot cliente
+  variables
+    av, ca, id, cant: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    RecibirMensaje(id, rs)
+    repetir 4
+      EnviarMensaje(id, rs)
+      RecibirMensaje(cant, rs)
+      repetir cant
+        BloquearEsquina(100, 1)
+        Pos(100, 1)
+        tomarPapel
+        Pos(av, ca)
+        LiberarEsquina(100, 1)
+        depositarPapel
+  fin
+  
+  robot servidor
+  variables
+    av, ca, cant, id: numero
+    ok: boolean
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    identificar
+    repetir 12
+      RecibirMensaje(id, *)
+      Random(cant, 1, 5)
+      BloquearEsquina(100, 1)
+      Pos(100, 1)
+      repetir cant
+        depositarPapel
+      Pos(av, ca)
+      LiberarEsquina(100, 1)
+      si (id = 1)
+        EnviarMensaje(cant, r1)
+      sino
+        si (id = 2)
+          EnviarMensaje(cant, r2)
+        sino
+          EnviarMensaje(cant, r3)
+  fin
+  
+variables
+  r1, r2, r3: cliente
+  rs: servidor
+comenzar
+  AsignarArea(r1, areaR1)
+  AsignarArea(r2, areaR2)
+  AsignarArea(r3, areaR3)
+  AsignarArea(rs, areaS)
+  AsignarArea(rs, areaD)
+  AsignarArea(r1, areaD)
+  AsignarArea(r2, areaD)
+  AsignarArea(r3, areaD)
+  Iniciar(r1, 10, 1)
+  Iniciar(r2, 11, 1)
+  Iniciar(r3, 12, 1)
+  Iniciar(rs, 13, 1)
+fin
