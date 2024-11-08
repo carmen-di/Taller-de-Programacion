@@ -1,0 +1,120 @@
+programa turnoF2023
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, ra1)
+    EnviarMensaje(2, ra2)
+    EnviarMensaje(3, rb1)
+    EnviarMensaje(4, rb2)
+  fin
+  proceso juntarFlores(ES cantF: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantF:= cantF + 1
+  fin
+  proceso recorrido(E pasos: numero; ES cantF: numero)
+  comenzar
+    repetir pasos
+      juntarFlores(cantF)
+      mover
+    derecha
+    repetir pasos
+      juntarFlores(cantF)
+      mover
+    juntarFlores(cantF)
+  fin
+  proceso depositarFlores(ES flores: numero)
+  variables
+    av, ca: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    repetir flores
+      BloquearEsquina(20, 20)
+      Pos(20, 20)
+      depositarFlor
+      Pos(av, ca)
+      LiberarEsquina(20, 20)
+  fin
+areas
+  areaA1a: AreaP(1,1,1,11)
+  areaA1b: AreaP(2,11,11,11)
+  areaA2a: AreaP(2,1,11,1)
+  areaA2b: AreaP(11,2,11,10)
+  areaB1a: AreaP(13,1,13,11)
+  areaB1b: AreaP(14,11,23,11)
+  areaB2a: AreaP(14,1,23,1)
+  areaB2b: AreaP(23,2,23,10)
+  areaD: AreaPC(20,20,20,20)
+  areaF: AreaP(30,1,30,1)
+robots
+  robot robot1
+  variables
+    cantF, id: numero
+  comenzar
+    cantF:= 0
+    RecibirMensaje(id, rf)
+    recorrido(10, cantF)
+    si (id = 1)
+      EnviarMensaje(cantF, ra2)
+    sino
+      EnviarMensaje(cantF, rb2)
+    depositarFlores(cantF)
+  fin
+  
+  robot robot2
+  variables
+    id, cantF, aux: numero
+    ok: boolean
+  comenzar
+    aux:= 0
+    RecibirMensaje(id, rf)
+    si (id = 2)
+      RecibirMensaje(cantF, ra1)
+    sino
+      RecibirMensaje(cantF, rb1)
+    repetir 2
+      derecha
+    recorrido(9, cantF)
+    depositarFlores(aux)
+    EnviarMensaje(cantF+aux, rf)
+  fin
+  
+  robot fiscalizador
+  variables
+    id, cantF, cantMax:numero
+  comenzar
+    identificar
+    cantMax:= -1
+    repetir 2
+      RecibirMensaje(cantF, *)
+      si(cantF > cantMax)
+        cantMax:= cantF
+    Informar(cantMax)
+  fin
+  
+variables
+  ra1, rb1: robot1
+  ra2, rb2: robot2
+  rf: fiscalizador
+comenzar
+  AsignarArea(ra1, areaA1a)
+  AsignarArea(ra1, areaA1b)
+  AsignarArea(ra2, areaA2a)
+  AsignarArea(ra2, areaA2b)
+  AsignarArea(rb1, areaB1a)
+  AsignarArea(rb1, areaB1b)
+  AsignarArea(rb2, areaB2a)
+  AsignarArea(rb2, areaB2b)
+  AsignarArea(ra1, areaD)
+  AsignarArea(ra2, areaD)
+  AsignarArea(rb1, areaD)
+  AsignarArea(rb2, areaD)
+  AsignarArea(rf, areaF)
+  Iniciar(ra1, 1, 1)
+  Iniciar(ra2, 11, 10)
+  Iniciar(rb1, 13, 1)
+  Iniciar(rb2, 23, 10)
+  Iniciar(rf, 30, 1)
+fin

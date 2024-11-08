@@ -1,0 +1,118 @@
+programa turnoG
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+  fin
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso juntarPapeles(ES papeles: numero; ES esquina: numero)
+  comenzar
+    si (HayPapelEnLaEsquina)
+      esquina:= esquina + 1
+      mientras (HayPapelEnLaEsquina)
+        tomarPapel
+        papeles:= papeles + 1
+  fin
+  proceso depositarPapeles(E papel: numero)
+  variables
+    av, ca: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    BloquearEsquina(99, 99)
+    Pos(99, 99)
+    repetir papel
+      depositarPapel
+    Pos(av, ca)
+    LiberarEsquina(99, 99)
+  fin
+  proceso ladoEscalon(E lado: numero; ES total: numero; ES cantEsq: numero)
+  variables
+    cantP: numero
+  comenzar
+    cantP:= 0
+    repetir lado
+      juntarPapeles(cantP, cantEsq)
+      mover
+    total:= total + cantP
+    depositarPapeles(cantP)
+  fin
+areas
+  areaR1: AreaP(2,1,18,13)
+  areaR2: AreaP(32,1,48,13)
+  areaR3: AreaP(62,1,78,13)
+  areaF: AreaP(1,1,1,1)
+  areaD: AreaP(99,99,99,99)
+robots
+  robot papelero
+  variables
+    id, alto, ancho, cantP, esquinas: numero
+    ok: boolean
+  comenzar
+    cantP:= 0
+    esquinas:= 0
+    RecibirMensaje(id, rf)
+    Random(alto, 1, 3)
+    Random(ancho,2, 4)
+    repetir 4
+      ladoEscalon(alto, cantP, esquinas)
+      derecha
+      ladoEscalon(alto, cantP, esquinas)
+      izquierda
+      EnviarMensaje(V, rf)
+      RecibirMensaje(ok, rf)
+    EnviarMensaje(cantP, rf)
+    RecibirMensaje(ok, rf)
+    EnviarMensaje(esquinas, rf)
+  fin
+  
+  robot fiscalizador
+  variables
+    cant, total, esquinas, totalEsq: numero
+    ok: boolean
+  comenzar
+    identificar
+    repetir 4
+      repetir 3
+        RecibirMensaje(ok, *)
+      EnviarMensaje(V, r1)
+      EnviarMensaje(V, r2)
+      EnviarMensaje(V, r3)
+    repetir 3
+      RecibirMensaje(cant, *)
+      total:= total + cant
+    EnviarMensaje(V, r1)
+    EnviarMensaje(V, r2)
+    EnviarMensaje(V, r3)
+    repetir 3
+      RecibirMensaje(esquinas, *)
+      totalEsq:= totalEsq + esquinas
+    Pos(99, 99)
+    repetir total
+      tomarPapel
+    Informar(totalEsq)
+  fin
+  
+variables
+  r1, r2, r3: papelero
+  rf: fiscalizador
+comenzar
+  AsignarArea(r1, areaR1)
+  AsignarArea(r2, areaR2)
+  AsignarArea(r3, areaR3)
+  AsignarArea(rf, areaF)
+  AsignarArea(r1, areaD)
+  AsignarArea(r2, areaD)
+  AsignarArea(r3, areaD)
+  AsignarArea(rf, areaD)
+  Iniciar(r1, 2, 1)
+  Iniciar(r2, 32, 1)
+  Iniciar(r3, 62, 1)
+  Iniciar(rf, 1, 1)
+fin

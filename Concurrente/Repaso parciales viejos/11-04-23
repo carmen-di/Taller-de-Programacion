@@ -1,0 +1,125 @@
+programa abril23
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+  fin
+  proceso enviarTamanio
+  variables
+    id, alto, ancho: numero
+  comenzar
+    id:= 0
+    repetir 3
+      id:= id + 1
+      Random(alto, 1, 11)
+      Random(ancho, 1, 5)
+      si (id = 1)
+        EnviarMensaje(alto, r1)
+        EnviarMensaje(ancho, r1)
+      sino
+        si(id = 2)
+          EnviarMensaje(alto, r2)
+          EnviarMensaje(ancho, r2)
+        sino
+          EnviarMensaje(alto, r3)
+          EnviarMensaje(ancho, r3)
+  fin
+  
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+  proceso rectangulo(E lado: numero; E ancho: numero; ES cant: numero)
+  comenzar
+    repetir 2
+      repetir lado
+        juntarFlores(cant)
+        mover
+      derecha
+      repetir ancho
+        juntarFlores(cant)
+        mover
+      derecha
+  fin
+  proceso depositarFlores
+  variables
+    av, ca: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    BloquearEsquina(25, 25)
+    Pos(25, 25)
+    depositarFlor
+    Pos(av, ca)
+    LiberarEsquina(25, 25)
+  fin
+areas
+  areaF: AreaP(24,24,24,24)
+  area1: AreaP(1,1,6,11)
+  area2: AreaP(7,1,12,11)
+  area3: AreaP(13,1,18,11)
+  areaD: AreaPC(25,25,25,25)
+robots
+  robot recolector
+  variables
+    id, cantF, alto, ancho: numero
+  comenzar
+    cantF:= 0
+    RecibirMensaje(id, rf)
+    RecibirMensaje(alto, rf)
+    RecibirMensaje(ancho, rf)
+    rectangulo(alto, ancho, cantF)
+    repetir cantF
+      depositarFlores
+    EnviarMensaje(id, rf)
+    EnviarMensaje(cantF, rf)
+  fin
+  
+  robot fiscalizador
+  variables
+    id, idMax, cantF, cantMax: numero
+  comenzar
+    cantMax:= -1
+    identificar
+    enviarTamanio
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(cantF, r1)
+        si (cantF > cantMax)
+          cantMax:= cantF
+          idMax:= id
+      sino
+        si (id = 2)
+          RecibirMensaje(cantF, r2)
+          si (cantF > cantMax)
+            cantMax:= cantF
+            idMax:= id
+        sino
+          RecibirMensaje(cantF, r3)
+          si (cantF > cantMax)
+            cantMax:= cantF
+            idMax:= id
+    Informar('Robot_que_mas_junto', id)
+  fin
+  
+variables
+  r1, r2, r3: recolector
+  rf: fiscalizador
+comenzar
+  AsignarArea(rf, areaF)
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  AsignarArea(r1, areaD)
+  AsignarArea(r2, areaD)
+  AsignarArea(r3, areaD)
+  Iniciar(rf, 24, 24)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 7, 1)
+  Iniciar(r3, 13, 1)
+fin

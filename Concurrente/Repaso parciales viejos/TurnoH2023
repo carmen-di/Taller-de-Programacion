@@ -1,0 +1,135 @@
+programa turnoH2023
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+  fin
+  proceso enviarTamanio
+  variables
+    id, lado: numero
+  comenzar
+    id:= 0
+    repetir 3
+      id:= id + 1
+      Random(lado, 1, 6)
+      si(id = 1)
+        EnviarMensaje(lado, r1)
+      sino
+        si(id = 2)
+          EnviarMensaje(lado, r2)
+        sino
+          EnviarMensaje(lado, r3)
+  fin
+  proceso juntarFlores(ES cantF : numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      cantF := cantF + 1
+  fin
+  proceso cuadrado(E lado: numero; ES cant: numero)
+  comenzar
+    repetir 4
+      repetir lado
+        juntarFlores(cant)
+        mover
+      derecha
+  fin
+  proceso depositarFlores(E flores: numero)
+  variables
+    av, ca: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    repetir flores
+      BloquearEsquina(50, 50)
+      Pos(50, 50)
+      depositarFlor
+      Pos(av, ca)
+      LiberarEsquina(50, 50)
+  fin
+  proceso maximo(E cant1: numero; E cant2: numero; E cant3: numero; ES idMax: numero)
+  comenzar
+    si (cant1 >= cant2) & (cant1 >= cant3)
+      idMax:= 1
+    sino
+      si (cant2 >= cant1) & (cant2 >= cant3)
+        idMax:= 2
+      sino
+        idMax:= 3
+  fin
+areas
+  areaD: AreaC(50,50,50,50)
+  areaR1: AreaP(1,1,6,22)
+  areaR2: AreaP(10,1,16,22)
+  areaR3: AreaP(20,1,26,22)
+  areaCor: AreaP(100,100,100,100)
+robots
+  robot recolector
+  variables
+    id, cantF, lado: numero
+  comenzar
+    cantF:= 0
+    RecibirMensaje(id, rc)
+    RecibirMensaje(lado, rc)
+    repetir 3
+      cuadrado(lado, cantF)
+      depositarFlores(cantF)
+      EnviarMensaje(id, rc)
+      EnviarMensaje(cantF, rc)
+      Pos(PosAv, PosCa+lado+1)
+      cantF:= 0
+  fin
+  
+  robot cordinador
+  variables
+    id, flores, av, ca: numero
+    cant1, cant2, cant3, idMax: numero
+  comenzar
+    identificar
+    enviarTamanio
+    av:= PosAv
+    ca:= PosCa
+    cant1:= 0
+    cant2:= 0
+    cant3:= 0
+    repetir 9
+      RecibirMensaje(id, *)
+      si(id = 1)
+        RecibirMensaje(flores, r1)
+        cant1:= cant1 + flores
+      sino
+        si(id = 2)
+          RecibirMensaje(flores, r2)
+          cant2:= cant2 + flores
+        sino
+          RecibirMensaje(flores, r3)
+          cant3:= cant3 + flores
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      repetir flores
+        tomarFlor
+      Pos(av,ca)
+      LiberarEsquina(50,50)
+    maximo(cant1, cant2, cant3, idMax)
+    Informar(idMax)
+  fin
+  
+variables
+  r1, r2, r3: recolector
+  rc: cordinador
+comenzar
+  AsignarArea(r1, areaR1)
+  AsignarArea(r2, areaR2)
+  AsignarArea(r3, areaR3)
+  AsignarArea(rc, areaCor)
+  AsignarArea(r1, areaD)
+  AsignarArea(r2, areaD)
+  AsignarArea(r3, areaD)
+  AsignarArea(rc, areaD)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 10, 1)
+  Iniciar(r3, 20, 1)
+  Iniciar(rc, 100, 100)
+fin

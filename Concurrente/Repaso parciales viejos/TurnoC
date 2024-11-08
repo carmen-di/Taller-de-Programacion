@@ -1,0 +1,95 @@
+programa turnoC2023
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje (1, r1)
+    EnviarMensaje (2, r2)
+    EnviarMensaje (3, r3)
+  fin
+  proceso juntarFlores(ES cantF: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantF := cantF + 1
+  fin
+  proceso cuadrado(E lado: numero; ES flores: numero)
+  comenzar
+    repetir 4
+      repetir lado
+        juntarFlores(flores)
+        mover
+      derecha
+  fin
+  proceso depositarFlores(E flores: numero)
+  variables
+    av, ca: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    repetir flores
+      BloquearEsquina(50, 50)
+      Pos(50, 50)
+      depositarFlor
+      Pos(av, ca)
+      LiberarEsquina(50, 50)
+  fin
+  proceso avisarRobots(E id: numero)
+  comenzar
+    si (id = 1)
+      EnviarMensaje(V, r2)
+      EnviarMensaje(V, r3)
+    sino
+      si (id = 2)
+        EnviarMensaje(V, r3)
+        EnviarMensaje(V, r1)
+      sino
+        EnviarMensaje(V, r1)
+        EnviarMensaje(V, r2)
+  fin
+areas
+  areaR1: AreaP(1,1,6,30)
+  areaR2: AreaP(8,1,14,25)
+  areaR3: AreaP(15,1,20,30)
+  areaD: AreaPC(50,50,50,50)
+  areaCor: AreaP(51,1,51,1)
+robots
+  robot robot1
+  variables
+    id, cantF, lado, av, ca: numero
+    ok: boolean
+  comenzar
+    cantF:= 0
+    RecibirMensaje(id, rc)
+    repetir 5
+      Random(lado, 1, 5)
+      cuadrado(lado, cantF)
+      av:= PosAv
+      ca:= PosCa
+      avisarRobots(id)
+      repetir 2
+        RecibirMensaje(ok, *)
+      Pos(av, ca+lado+1)
+    depositarFlores(cantF)
+  fin
+  
+  robot coordinador
+  comenzar
+    identificar
+  fin
+  
+variables
+  r1, r2, r3: robot1
+  rc: coordinador
+comenzar
+  AsignarArea(r1, areaR1)
+  AsignarArea(r2, areaR2)
+  AsignarArea(r3, areaR3)
+  AsignarArea(rc, areaCor)
+  AsignarArea(r1, areaD)
+  AsignarArea(r2, areaD)
+  AsignarArea(r3, areaD)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 8, 1)
+  Iniciar(r3, 15, 1)
+  Iniciar(rc, 51, 1)
+fin
