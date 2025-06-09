@@ -1,0 +1,102 @@
+programa turnoL
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+  fin
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+  proceso juntarFloresF(ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+areas
+  cuadrante: AreaPC(10,10,30,30)
+  areaD: AreaC(5,5,5,5)
+  area1: AreaP(1,1,1,1)
+  area2: AreaP(2,1,2,1)
+  area3: AreaP(3,1,3,1)
+  areaF: AreaP(5,1,5,1)
+robots
+  robot florero
+  variables
+    id, intentos, av, ca, x, y, flores: numero
+  comenzar
+    RecibirMensaje(id, rf)
+    Random(intentos, 1, 5)
+    EnviarMensaje(id, rf)
+    EnviarMensaje(intentos, rf)
+    flores:= 0
+    av:= PosAv
+    ca:= PosCa
+    repetir intentos
+      EnviarMensaje(id, rf)
+      RecibirMensaje(x, rf)
+      RecibirMensaje(y, rf)
+      BloquearEsquina(x, y)
+      Pos(x, y)
+      juntarFlores(flores)
+      si (HayFlorEnLaBolsa)
+        BloquearEsquina(5, 5)
+        Pos(5, 5)
+        depositarFlor
+      Pos(av, ca)
+      LiberarEsquina(5, 5)
+    EnviarMensaje(0, rf)
+  fin
+  
+  robot fiscalizador
+  variables
+    id, flor, av, ca, cantTermino: numero
+  comenzar
+    cantTermino:= 0
+    identificar
+    mientras (cantTermino < 3)
+      Random(av, 10, 30)
+      Random(ca, 10, 30)
+      RecibirMensaje(id, *)
+      si (id <> 0)
+        si(id = 1)
+          EnviarMensaje(av, r1)
+          EnviarMensaje(ca, r1)
+        sino
+          si(id = 2)
+            EnviarMensaje(av, r2)
+            EnviarMensaje(ca, r2)
+          sino
+            EnviarMensaje(av, r3)
+            EnviarMensaje(ca, r3)
+      sino
+        cantTermino:= cantTermino + 1
+    Pos(5, 5)
+    juntarFloresF(flor)
+    Informar('Cantidad total', flor)
+  fin  
+variables
+  r1, r2, r3: florero
+  rf: fiscalizador
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  AsignarArea(rf, areaF)
+  AsignarArea(r1, cuadrante)
+  AsignarArea(r2, cuadrante)
+  AsignarArea(r3, cuadrante)
+  AsignarArea(r1, areaD)
+  AsignarArea(r2, areaD)
+  AsignarArea(r3, areaD)
+  AsignarArea(rf, areaD)
+  Iniciar(r1, 1 ,1)
+  Iniciar(r2, 2, 1)
+  Iniciar(r3, 3, 1)
+  Iniciar(rf, 5, 1)
+fin

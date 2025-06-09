@@ -1,0 +1,111 @@
+programa parcial2022
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+  fin
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+  proceso lado(ES flores: numero)
+  variables
+    empezar: boolean
+  comenzar
+    repetir 5
+      mientras (HayFlorEnLaEsquina)
+        juntarFlores(flores)
+      mover
+    derecha
+    EnviarMensaje(V, rj)
+    RecibirMensaje(empezar, rj)
+  fin
+  proceso calcularMaximo(E id: numero; ES idMax: numero; E flor: numero; ES florMax: numero)
+  comenzar
+    si (flor > florMax)
+      florMax:= flor
+      idMax:= id
+  fin
+  proceso depositarPerdedor
+  variables
+    av, ca: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    mientras (HayFlorEnLaBolsa)
+      BloquearEsquina(10, 10)
+      Pos(10, 10)
+      depositarFlor
+      Pos(av, ca)
+      LiberarEsquina(10, 10)
+  fin
+areas
+  areaR1: AreaP(1,1,6,6)
+  areaR2: AreaP(7,1,12,6)
+  areaR3: AreaP(13,1,18,6)
+  areaJ: AreaP(20,1,20,1)
+  areaD: AreaP(10,10,10,10) {area deposito}
+robots
+  robot trabajador
+  variables
+    id, cantF, ganador: numero
+  comenzar
+    cantF:= 0
+    RecibirMensaje(id, rj)
+    repetir 4
+      lado(cantF)
+    EnviarMensaje(id, rj)
+    EnviarMensaje(cantF, rj)
+    RecibirMensaje(ganador, rj)
+    si ~(ganador = id)
+      depositarPerdedor
+      cantF:= 0
+  fin
+  robot jefe
+  variables
+    id, idMax, flor, florMax: numero
+    termino: boolean
+  comenzar
+    florMax:= -1
+    identificar
+    repetir 4
+      repetir 3
+        RecibirMensaje(termino, *)
+      EnviarMensaje(V, r1)
+      EnviarMensaje(V, r2)
+      EnviarMensaje(V, r3)
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(flor, r1)
+      sino
+        si (id = 2)
+          RecibirMensaje(flor, r2)
+        sino
+          RecibirMensaje(flor, r3)
+      calcularMaximo(id, idMax, flor, florMax)
+    Informar('Ganador_', idMax) 
+    EnviarMensaje(idMax, r1)
+    EnviarMensaje(idMax, r2)
+    EnviarMensaje(idMax, r3)
+  fin
+variables
+  r1, r2, r3: trabajador
+  rj: jefe
+comenzar
+  AsignarArea(r1, areaR1)
+  AsignarArea(r2, areaR2)
+  AsignarArea(r3, areaR3)
+  AsignarArea(rj, areaJ)
+  AsignarArea(r1, areaD)
+  AsignarArea(r2, areaD)
+  AsignarArea(r3, areaD)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 7, 1)
+  Iniciar(r3, 13, 1)
+  Iniciar(rj, 20, 1)
+fin

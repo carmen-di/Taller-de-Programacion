@@ -1,0 +1,94 @@
+programa escondedor
+procesos
+  proceso identificar
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+  fin
+areas
+  areaBuscar: AreaC(10,10,13,13)
+  area1: AreaP(1,1,1,1)
+  area2: AreaP(2,2,2,2)
+  area3: AreaP(3,3,3,3)
+  areaE: AreaP(4,4,4,4)
+robots
+  robot buscador
+  variables
+    av, ca, x, y, id: numero
+    encontre, terminar: boolean
+  comenzar
+    encontre:= F
+    av:= PosAv
+    ca:= PosCa
+    RecibirMensaje(id, re)
+    mientras (encontre = F) & (terminar = F)
+      Random(x, 10, 13)
+      Random(y, 10, 13)
+      BloquearEsquina(x, y)
+      Pos(x, y)
+      si (HayFlorEnLaEsquina)
+        encontre:= V
+        tomarFlor
+      Pos(av, ca)
+      LiberarEsquina(x, y)
+      EnviarMensaje(id, re)
+      EnviarMensaje(encontre, re)
+      RecibirMensaje(terminar, re)
+  fin
+  
+  robot escondedor
+  variables
+    av, ca, x, y, id, ganador: numero
+    ok: boolean
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    ok:= F
+    Random(x, 10, 13)
+    Random(y, 10, 13)
+    Pos(x, y)
+    depositarFlor
+    Pos(av, ca)
+    identificar
+    mientras (ok = F)
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(ok, r1)
+      sino
+        si(id = 2)
+          RecibirMensaje(ok, r2)
+        sino
+          RecibirMensaje(ok, r3)
+      si (ok = V)
+        ganador:= id
+      si (id = 1)
+        EnviarMensaje(ok, r2)
+        EnviarMensaje(ok, r3)
+      sino
+        si (ganador = 2)
+          EnviarMensaje(ok, r1)
+          EnviarMensaje(ok, r3)
+        sino
+          EnviarMensaje(ok, r1)
+          EnviarMensaje(ok, r2)
+    Informar('El buscador que encontro la flor es el ', ganador)
+  fin
+  
+variables
+  r1, r2, r3: buscador
+  re: escondedor
+comenzar
+  AsignarArea(r1, areaBuscar)
+  AsignarArea(r2, areaBuscar)
+  AsignarArea(r3, areaBuscar)
+  AsignarArea(re, areaBuscar)
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  AsignarArea(re, areaE)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 2, 2)
+  Iniciar(r3, 3, 3)
+  Iniciar(re, 4, 4)
+fin

@@ -1,0 +1,181 @@
+programa terceratarde
+procesos
+  proceso juntarFlores(ES flor: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flor:= flor + 1
+  fin
+  proceso juntarPapeles(ES papel: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papel:= papel + 1
+  fin
+  proceso Maximo(E cant: numero; ES cantMax: numero; E id: numero; ES idMax: numero)
+  comenzar
+    si (cant > cantMax)
+      idMax:= id
+      cantMax:= cant
+  fin
+areas
+  areaComp: AreaPC(5,5,7,7)  {etapa 1 y 2}
+  areaD: AreaPC(10,10,10,10) {etapa 3}
+  areaF: AreaP(1,1,1,1)
+  areaR1: AreaP(5,4,5,4)
+  areaR2: AreaP(6,4,6,4)
+  areaR3: AreaP(7,4,7,4)
+robots
+  robot jugador
+  variables
+    id, flor, papel, av, ca, miAv, miCa: numero
+    ok: boolean
+  comenzar
+    RecibirMensaje(id, rf)
+    miAv:= PosAv
+    miCa:= PosCa
+    BloquearEsquina(PosAv, PosCa + 1)
+    mover
+    repetir 2
+      juntarFlores(flor)
+      BloquearEsquina(PosAv, PosCa + 1)
+      mover
+      LiberarEsquina(PosAv, PosCa - 1)
+    juntarFlores(flor)
+    av:= PosAv
+    ca:= PosCa
+    Pos(miAv, miCa)
+    LiberarEsquina(av, ca)
+    EnviarMensaje(id, rf)
+    EnviarMensaje(flor, rf)
+    RecibirMensaje(ok, rf)
+    si (id = 1)
+      BloquearEsquina(5, 5)
+      Pos(5,5)
+      LiberarEsquina(5,7)
+      derecha
+      repetir 2
+        juntarPapeles(papel)
+        BloquearEsquina(PosAv + 1, PosCa)
+        mover
+        LiberarEsquina(PosAv - 1, PosCa)
+      juntarPapeles(papel)
+      Pos(5,4)
+      LiberarEsquina(7,5)
+      EnviarMensaje(id, rf)
+      EnviarMensaje(papel, rf)
+    si (id = 2)
+      BloquearEsquina(5,6)
+      Pos(5,6)
+      LiberarEsquina(6,7)
+      derecha
+      repetir 2
+        juntarPapeles(papel)
+        BloquearEsquina(PosAv + 1, PosCa)
+        mover
+        LiberarEsquina(PosAv - 1, PosCa)
+      juntarPapeles(papel)
+      Pos(6,4)
+      LiberarEsquina(7,6)
+      EnviarMensaje(id, rf)
+      EnviarMensaje(papel, rf)
+    si (id = 3)
+      BloquearEsquina(5,7)
+      Pos(5,7)
+      LiberarEsquina(7,7)
+      derecha
+      repetir 2
+        juntarPapeles(papel)
+        BloquearEsquina(PosAv + 1, PosCa)
+        mover
+        LiberarEsquina(PosAv - 1, PosCa)
+      juntarPapeles(papel)
+      Pos(7,4)
+      LiberarEsquina(7,7)
+      EnviarMensaje(id, rf)
+      EnviarMensaje(papel, rf)
+    RecibirMensaje(ok, rf)
+    av:= PosAv
+    ca:= PosCa
+    mientras ((HayFlorEnLaBolsa) | (HayPapelEnLaBolsa))
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      si (HayFlorEnLaBolsa)
+        depositarFlor
+      sino
+        si (HayPapelEnLaBolsa)
+          depositarPapel
+      Pos(av, ca)
+      LiberarEsquina(10,10)
+    EnviarMensaje(id, rf)
+  fin
+  
+  robot fiscal
+  variables
+    id, ganador, cant, cantMax: numero
+    ok: boolean
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    ganador:= -1
+    cantMax:= -1
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(cant, r1)
+        Maximo(cant, cantMax, id, ganador)
+      si (id = 2)
+        RecibirMensaje(cant, r2)
+        Maximo(cant, cantMax, id, ganador)
+      si (id = 3)
+        RecibirMensaje(cant, r3)
+        Maximo(cant, cantMax, id, ganador)
+    EnviarMensaje(ok, r1)
+    EnviarMensaje(ok, r2)
+    EnviarMensaje(ok, r3)
+    Informar('Ganador_primer_etapa_robot_numero_', ganador)
+    cantMax:= -1
+    ganador:= -1
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(cant, r1)
+        Maximo(cant, cantMax, id, ganador)
+      si (id = 2)
+        RecibirMensaje(cant, r2)
+        Maximo(cant, cantMax, id, ganador)
+      si (id = 3)
+        RecibirMensaje(cant, r3)
+        Maximo(cant, cantMax, id, ganador)
+    EnviarMensaje(ok, r1)
+    EnviarMensaje(ok, r2)
+    EnviarMensaje(ok, r3)
+    Informar('Ganador_segunda_etapa_robot_numero_', ganador)
+    RecibirMensaje(id, *)
+    ganador:= id
+    Informar('Ganador_tercer_etapa_robot_numero_', ganador)
+    RecibirMensaje(id, *)
+    RecibirMensaje(id, *)
+  fin
+  
+variables
+  r1, r2, r3: jugador
+  rf: fiscal
+comenzar
+  AsignarArea(r1, areaR1)
+  AsignarArea(r2, areaR2)
+  AsignarArea(r3, areaR3)
+  AsignarArea(r1, areaComp)
+  AsignarArea(r2, areaComp)
+  AsignarArea(r3, areaComp)
+  AsignarArea(r1, areaD)
+  AsignarArea(r2, areaD)
+  AsignarArea(r3, areaD)
+  AsignarArea(rf, areaF)
+  Iniciar(r1, 5, 4)
+  Iniciar(r2, 6, 4)
+  Iniciar(r3, 7, 4)
+  Iniciar(rf, 1, 1)
+fin
+
